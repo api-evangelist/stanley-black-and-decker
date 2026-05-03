@@ -1,0 +1,324 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Stanley Black & Decker Jobsite Tool Management"
+  description: >-
+    Unified capability for jobsite tool and asset management workflows using DEWALT Tool Connect. Enables construction managers, fleet coordinators, and contractors to track connected tools, monitor battery health, manage jobsite inventory, and analyze tool utilization.
+  tags:
+    - Stanley Black And Decker
+    - DEWALT
+    - Connected Tools
+    - Jobsite Management
+    - Asset Tracking
+    - IoT
+    - Construction
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      DEWALT_API_TOKEN: DEWALT_API_TOKEN
+
+capability:
+  consumes:
+    - import: tool-connect
+      location: ./shared/tool-connect-api.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: jobsite-tool-management-api
+      description: "Unified REST API for DEWALT jobsite tool and asset management."
+      resources:
+        - path: /v1/tools
+          name: tools
+          description: Connected tool inventory management
+          operations:
+            - method: GET
+              name: list-tools
+              description: List all connected DEWALT tools with status
+              call: "tool-connect.list-tools"
+              with:
+                jobsiteId: "rest.jobsiteId"
+                status: "rest.status"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/tools/{toolId}
+          name: tool
+          description: Get connected tool details
+          operations:
+            - method: GET
+              name: get-tool
+              description: Get tool details, firmware, and connectivity status
+              call: "tool-connect.get-tool"
+              with:
+                toolId: "rest.toolId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/tools/{toolId}/usage
+          name: tool-usage
+          description: Tool usage and runtime statistics
+          operations:
+            - method: GET
+              name: get-tool-usage
+              description: Get tool operational hours and usage patterns
+              call: "tool-connect.get-tool-usage"
+              with:
+                toolId: "rest.toolId"
+                startDate: "rest.startDate"
+                endDate: "rest.endDate"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/batteries
+          name: batteries
+          description: Battery fleet health monitoring
+          operations:
+            - method: GET
+              name: list-batteries
+              description: List batteries with charge levels and health status
+              call: "tool-connect.list-batteries"
+              with:
+                jobsiteId: "rest.jobsiteId"
+                chargeStatus: "rest.chargeStatus"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/batteries/{batteryId}
+          name: battery
+          description: Individual battery health details
+          operations:
+            - method: GET
+              name: get-battery
+              description: Get battery diagnostics including charge cycles and temperature
+              call: "tool-connect.get-battery"
+              with:
+                batteryId: "rest.batteryId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/assets
+          name: assets
+          description: Full asset inventory
+          operations:
+            - method: GET
+              name: list-assets
+              description: List all tracked assets including tools, batteries, and tags
+              call: "tool-connect.list-assets"
+              with:
+                type: "rest.type"
+                jobsiteId: "rest.jobsiteId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: register-asset
+              description: Register a new asset by serial number
+              call: "tool-connect.register-asset"
+              with:
+                serialNumber: "rest.serialNumber"
+                type: "rest.type"
+                jobsiteId: "rest.jobsiteId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/jobsites
+          name: jobsites
+          description: Jobsite project management
+          operations:
+            - method: GET
+              name: list-jobsites
+              description: List all configured jobsites with asset counts
+              call: "tool-connect.list-jobsites"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-jobsite
+              description: Create a new jobsite for tool tracking
+              call: "tool-connect.create-jobsite"
+              with:
+                name: "rest.name"
+                address: "rest.address"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/jobsites/{jobsiteId}
+          name: jobsite
+          description: Jobsite inventory overview
+          operations:
+            - method: GET
+              name: get-jobsite
+              description: Get jobsite with full tool and battery inventory
+              call: "tool-connect.get-jobsite"
+              with:
+                jobsiteId: "rest.jobsiteId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/users
+          name: users
+          description: Team and user management
+          operations:
+            - method: GET
+              name: list-users
+              description: List all organization users and their roles
+              call: "tool-connect.list-users"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9080
+      namespace: jobsite-tool-management-mcp
+      transport: http
+      description: "MCP server for AI-assisted DEWALT jobsite tool and asset management."
+      tools:
+        - name: list-tools
+          description: List all DEWALT connected tools registered to the account, filterable by jobsite or connectivity status
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "tool-connect.list-tools"
+          with:
+            jobsiteId: "tools.jobsiteId"
+            status: "tools.status"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-tool-details
+          description: Get DEWALT tool details including model, serial number, firmware version, and warranty information
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "tool-connect.get-tool"
+          with:
+            toolId: "tools.toolId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-tool-usage-stats
+          description: Analyze DEWALT tool runtime hours, trigger events, and usage patterns over a date range
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "tool-connect.get-tool-usage"
+          with:
+            toolId: "tools.toolId"
+            startDate: "tools.startDate"
+            endDate: "tools.endDate"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-batteries
+          description: List DEWALT battery fleet with charge levels, health status, and paired tool information
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "tool-connect.list-batteries"
+          with:
+            jobsiteId: "tools.jobsiteId"
+            chargeStatus: "tools.chargeStatus"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-battery-health
+          description: Get detailed DEWALT battery diagnostics including charge cycles, temperature, and replacement recommendation
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "tool-connect.get-battery"
+          with:
+            batteryId: "tools.batteryId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-jobsite-assets
+          description: View all tools, batteries, tags, and connectors tracked at a specific jobsite
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "tool-connect.list-assets"
+          with:
+            jobsiteId: "tools.jobsiteId"
+            type: "tools.type"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: register-asset
+          description: Register a new DEWALT tool, battery, or tag to the account by scanning its QR code or entering the serial number
+          hints:
+            readOnly: false
+            destructive: false
+          call: "tool-connect.register-asset"
+          with:
+            serialNumber: "tools.serialNumber"
+            type: "tools.type"
+            jobsiteId: "tools.jobsiteId"
+            name: "tools.name"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-jobsite-inventory
+          description: Get full DEWALT tool and battery inventory for a jobsite including user assignments and asset counts
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "tool-connect.get-jobsite"
+          with:
+            jobsiteId: "tools.jobsiteId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-jobsites
+          description: List all configured DEWALT Tool Connect jobsites with asset and user counts
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "tool-connect.list-jobsites"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: create-jobsite
+          description: Create a new DEWALT Tool Connect jobsite for organizing tool and asset tracking by project
+          hints:
+            readOnly: false
+            destructive: false
+          call: "tool-connect.create-jobsite"
+          with:
+            name: "tools.name"
+            address: "tools.address"
+            description: "tools.description"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-team-members
+          description: List all users in the DEWALT Tool Connect organization with their roles and jobsite assignments
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "tool-connect.list-users"
+          outputParameters:
+            - type: object
+              mapping: "$."

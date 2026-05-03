@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12",
+  "$id": "https://api.dewalt.com/schemas/battery",
+  "title": "DEWALT Battery",
+  "description": "A DEWALT Tool Connect-registered battery pack with charge level, health diagnostics, and usage data.",
+  "type": "object",
+  "required": ["id", "model", "serialNumber"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the battery"
+    },
+    "model": {
+      "type": "string",
+      "description": "DEWALT battery model number (e.g., DCB609)"
+    },
+    "serialNumber": {
+      "type": "string",
+      "description": "Manufacturer serial number"
+    },
+    "chargeLevel": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Current charge percentage"
+    },
+    "chargeStatus": {
+      "type": "string",
+      "enum": ["charged", "charging", "low", "critical"],
+      "description": "Current charge state"
+    },
+    "health": {
+      "type": "string",
+      "enum": ["good", "fair", "poor", "replace"],
+      "description": "Overall battery health assessment"
+    },
+    "chargeCycles": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of complete charge cycles"
+    },
+    "temperature": {
+      "type": "number",
+      "description": "Current battery temperature in Celsius"
+    },
+    "voltage": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Current voltage reading"
+    },
+    "capacity": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Current capacity as percentage of rated capacity"
+    },
+    "pairedToolId": {
+      "type": "string",
+      "description": "Identifier of the tool currently paired with this battery"
+    },
+    "jobsiteId": {
+      "type": "string",
+      "description": "Identifier of the jobsite where the battery is located"
+    }
+  },
+  "examples": [
+    {
+      "id": "battery_dcb609_001",
+      "model": "DCB609",
+      "serialNumber": "BT2024005678",
+      "chargeLevel": 85,
+      "chargeStatus": "charged",
+      "health": "good",
+      "chargeCycles": 47,
+      "temperature": 22.3,
+      "voltage": 20.1,
+      "capacity": 94,
+      "pairedToolId": "tool_dcd999_001",
+      "jobsiteId": "jobsite_downtown_tower"
+    }
+  ]
+}

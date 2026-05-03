@@ -1,0 +1,110 @@
+name: Stanley Black & Decker Vocabulary
+description: >-
+  Domain vocabulary for Stanley Black & Decker connected tools and IoT platform concepts including DEWALT Tool Connect, asset tracking, and jobsite management.
+created: '2026-05-02'
+modified: '2026-05-02'
+terms:
+  - term: Tool Connect
+    definition: >-
+      DEWALT's connected tool management system that uses Bluetooth to link power tools and batteries to a mobile app and cloud platform, enabling asset tracking, usage analytics, and fleet management.
+    tags:
+      - IoT
+      - Connected Tools
+
+  - term: DEWALT
+    definition: >-
+      Stanley Black & Decker's professional-grade power tools brand. DEWALT produces drills, saws, grinders, and other power tools with Bluetooth connectivity for the Tool Connect platform.
+    tags:
+      - Brand
+      - Tools
+
+  - term: Jobsite
+    definition: >-
+      A construction project location configured within Tool Connect to organize and track tools, batteries, and users assigned to a specific project or work site.
+    tags:
+      - Jobsite
+      - Organization
+
+  - term: Asset
+    definition: >-
+      Any trackable item registered in the Tool Connect platform including power tools, battery packs, Bluetooth tags attached to non-connected tools, and connector tags.
+    tags:
+      - Asset
+      - Inventory
+
+  - term: FLEXVOLT
+    definition: >-
+      DEWALT's premium battery system that automatically switches between 20V and 60V to power both 20V MAX and 60V MAX tools with a single battery platform.
+    tags:
+      - Battery
+      - Technology
+
+  - term: Connectivity Status
+    definition: >-
+      The current Bluetooth connection state of a Tool Connect-enabled device. Values include "connected" (within Bluetooth range and communicating) and "disconnected" (out of range or powered off).
+    tags:
+      - IoT
+      - Status
+
+  - term: Battery Health
+    definition: >-
+      An assessment of a DEWALT battery pack's remaining usable capacity relative to its rated capacity. Health states: "good" (>80%), "fair" (60-80%), "poor" (40-60%), "replace" (<40%).
+    tags:
+      - Battery
+      - Diagnostics
+
+  - term: Charge Cycles
+    definition: >-
+      The number of complete charge and discharge cycles a battery has undergone. Higher cycle counts correlate with reduced battery capacity and health.
+    tags:
+      - Battery
+      - Metrics
+
+  - term: Runtime
+    definition: >-
+      The accumulated operational time a tool has been actively used, measured in hours. Used to track tool utilization rates and predict maintenance schedules.
+    tags:
+      - Tools
+      - Metrics
+
+  - term: Firmware
+    definition: >-
+      Software embedded in DEWALT connected tools that manages Bluetooth communication and operational parameters. Can be updated over-the-air via the Tool Connect platform.
+    tags:
+      - Tools
+      - Software
+
+  - term: Stanley X
+    definition: >-
+      The innovation center of Stanley Black & Decker that develops IoT solutions, smart factory technologies, and digital transformation programs including the Digital Smart Trilogy.
+    tags:
+      - Innovation
+      - IoT
+
+  - term: Bluetooth LE
+    definition: >-
+      Bluetooth Low Energy protocol used by DEWALT Tool Connect devices to communicate inventory data, charge levels, and diagnostics to the Tool Connect mobile app and cloud.
+    tags:
+      - Technology
+      - Connectivity
+
+  - term: MSUITE
+    definition: >-
+      DEWALT's cloud-based construction project management software that integrates with Tool Connect for comprehensive jobsite coordination including tool tracking, scheduling, and reporting.
+    tags:
+      - Software
+      - Jobsite
+
+  - term: Fleet Management
+    definition: >-
+      The practice of tracking, monitoring, and managing an organization's entire inventory of tools and equipment across multiple jobsites using the Tool Connect platform.
+    tags:
+      - Fleet
+      - Management
+
+  - term: QR Code Registration
+    definition: >-
+      The process of adding a new asset to the Tool Connect inventory by scanning the tool's or battery's QR code with the DEWALT Site Manager app, automatically populating product data.
+    tags:
+      - Registration
+      - Workflow

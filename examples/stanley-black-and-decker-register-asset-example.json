@@ -1,0 +1,32 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://api.dewalt.com/v1/assets",
+    "headers": {
+      "Authorization": "Bearer {token}",
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    "body": {
+      "serialNumber": "SN2024003891",
+      "type": "tool",
+      "jobsiteId": "jobsite_downtown_tower",
+      "name": "Circular Saw - Roof Level"
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "id": "asset_dcs573_003",
+      "type": "tool",
+      "name": "Circular Saw - Roof Level",
+      "serialNumber": "SN2024003891",
+      "jobsiteId": "jobsite_downtown_tower",
+      "status": "active",
+      "registeredAt": "2026-05-02T09:15:00Z"
+    }
+  }
+}

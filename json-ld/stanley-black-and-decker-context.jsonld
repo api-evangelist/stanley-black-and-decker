@@ -1,0 +1,54 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "sbd": "https://api.dewalt.com/vocab#",
+    "iot": "https://www.w3.org/ns/sosa/",
+    "Tool": "sbd:ConnectedTool",
+    "Battery": "sbd:Battery",
+    "Asset": "sbd:Asset",
+    "Jobsite": "sbd:Jobsite",
+    "User": "Person",
+    "id": "@id",
+    "name": "name",
+    "description": "description",
+    "model": "model",
+    "serialNumber": "serialNumber",
+    "brand": "brand",
+    "type": "@type",
+    "status": "sbd:connectivityStatus",
+    "jobsiteId": "sbd:assignedJobsite",
+    "firmwareVersion": "softwareVersion",
+    "purchaseDate": "purchaseDate",
+    "warrantyExpiry": "sbd:warrantyExpiry",
+    "lastSeen": "sbd:lastConnected",
+    "totalRuntime": {
+      "@id": "sbd:totalRuntime",
+      "@type": "xsd:decimal"
+    },
+    "assignedUserId": "sbd:assignedUser",
+    "chargeLevel": {
+      "@id": "sbd:chargeLevel",
+      "@type": "xsd:integer"
+    },
+    "chargeStatus": "sbd:chargeStatus",
+    "health": "sbd:batteryHealth",
+    "chargeCycles": "sbd:chargeCycles",
+    "temperature": {
+      "@id": "iot:hasSimpleResult",
+      "@type": "xsd:decimal"
+    },
+    "voltage": "sbd:voltage",
+    "capacity": "sbd:batteryCapacity",
+    "pairedToolId": "sbd:pairedTool",
+    "address": "address",
+    "toolCount": "sbd:toolCount",
+    "batteryCount": "sbd:batteryCount",
+    "userCount": "sbd:userCount",
+    "tools": "sbd:tools",
+    "batteries": "sbd:batteries",
+    "users": "sbd:users",
+    "registeredAt": "dateCreated",
+    "role": "jobTitle",
+    "jobsiteIds": "sbd:assignedJobsites"
+  }
+}

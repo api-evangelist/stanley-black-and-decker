@@ -1,0 +1,353 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "DEWALT Tool Connect API"
+  description: >-
+    Stanley Black & Decker's DEWALT Tool Connect API for managing connected tools, batteries, assets, and jobsites. Enables partner applications to track Bluetooth-connected tool inventory, monitor battery health, and manage construction project assets.
+  tags:
+    - Stanley Black And Decker
+    - DEWALT
+    - Connected Tools
+    - IoT
+    - Tool Management
+    - Jobsite
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      DEWALT_API_TOKEN: DEWALT_API_TOKEN
+
+capability:
+  consumes:
+    - type: http
+      namespace: tool-connect
+      baseUri: https://api.dewalt.com
+      description: "DEWALT Tool Connect API for connected tool and asset management"
+      authentication:
+        type: bearer
+        token: "{{DEWALT_API_TOKEN}}"
+      resources:
+        - name: tools
+          path: /v1/tools
+          description: Connected tool management
+          operations:
+            - name: list-tools
+              method: GET
+              description: List all registered connected tools
+              inputParameters:
+                - name: jobsiteId
+                  in: query
+                  type: string
+                  required: false
+                  description: Filter by jobsite
+                - name: status
+                  in: query
+                  type: string
+                  required: false
+                  description: Filter by connectivity status
+                - name: limit
+                  in: query
+                  type: integer
+                  required: false
+                  description: Maximum results to return
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: tool
+          path: /v1/tools/{toolId}
+          description: Individual tool details
+          operations:
+            - name: get-tool
+              method: GET
+              description: Get connected tool details and status
+              inputParameters:
+                - name: toolId
+                  in: path
+                  type: string
+                  required: true
+                  description: Tool identifier
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: tool-usage
+          path: /v1/tools/{toolId}/usage
+          description: Tool usage statistics
+          operations:
+            - name: get-tool-usage
+              method: GET
+              description: Get tool runtime and usage statistics
+              inputParameters:
+                - name: toolId
+                  in: path
+                  type: string
+                  required: true
+                  description: Tool identifier
+                - name: startDate
+                  in: query
+                  type: string
+                  required: false
+                  description: Start date for usage data
+                - name: endDate
+                  in: query
+                  type: string
+                  required: false
+                  description: End date for usage data
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: batteries
+          path: /v1/batteries
+          description: Battery fleet management
+          operations:
+            - name: list-batteries
+              method: GET
+              description: List all registered batteries with charge status
+              inputParameters:
+                - name: jobsiteId
+                  in: query
+                  type: string
+                  required: false
+                  description: Filter by jobsite
+                - name: chargeStatus
+                  in: query
+                  type: string
+                  required: false
+                  description: Filter by charge status
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: battery
+          path: /v1/batteries/{batteryId}
+          description: Individual battery details
+          operations:
+            - name: get-battery
+              method: GET
+              description: Get battery health and charge status
+              inputParameters:
+                - name: batteryId
+                  in: path
+                  type: string
+                  required: true
+                  description: Battery identifier
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: assets
+          path: /v1/assets
+          description: Asset inventory management
+          operations:
+            - name: list-assets
+              method: GET
+              description: List all tracked assets
+              inputParameters:
+                - name: type
+                  in: query
+                  type: string
+                  required: false
+                  description: Filter by asset type
+                - name: jobsiteId
+                  in: query
+                  type: string
+                  required: false
+                  description: Filter by jobsite
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: register-asset
+              method: POST
+              description: Register a new asset to the account
+              body:
+                type: json
+                data:
+                  serialNumber: "{{tools.serialNumber}}"
+                  type: "{{tools.type}}"
+                  jobsiteId: "{{tools.jobsiteId}}"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: asset
+          path: /v1/assets/{assetId}
+          description: Individual asset details
+          operations:
+            - name: get-asset
+              method: GET
+              description: Get asset details and location
+              inputParameters:
+                - name: assetId
+                  in: path
+                  type: string
+                  required: true
+                  description: Asset identifier
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: jobsites
+          path: /v1/jobsites
+          description: Jobsite management
+          operations:
+            - name: list-jobsites
+              method: GET
+              description: List all configured jobsites
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-jobsite
+              method: POST
+              description: Create a new jobsite
+              body:
+                type: json
+                data:
+                  name: "{{tools.name}}"
+                  address: "{{tools.address}}"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: jobsite
+          path: /v1/jobsites/{jobsiteId}
+          description: Individual jobsite details
+          operations:
+            - name: get-jobsite
+              method: GET
+              description: Get jobsite details with tool and battery inventory
+              inputParameters:
+                - name: jobsiteId
+                  in: path
+                  type: string
+                  required: true
+                  description: Jobsite identifier
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: users
+          path: /v1/users
+          description: User and team management
+          operations:
+            - name: list-users
+              method: GET
+              description: List all users in the organization
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8180
+      namespace: tool-connect-rest
+      resources:
+        - path: /v1/tools
+          name: tools
+          operations:
+            - method: GET
+              name: list-tools
+              description: List connected tools
+              call: "tool-connect.list-tools"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/batteries
+          name: batteries
+          operations:
+            - method: GET
+              name: list-batteries
+              description: List battery fleet
+              call: "tool-connect.list-batteries"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/assets
+          name: assets
+          operations:
+            - method: GET
+              name: list-assets
+              description: List all assets
+              call: "tool-connect.list-assets"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/jobsites
+          name: jobsites
+          operations:
+            - method: GET
+              name: list-jobsites
+              description: List all jobsites
+              call: "tool-connect.list-jobsites"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9180
+      namespace: tool-connect-mcp
+      transport: http
+      tools:
+        - name: list-tools
+          description: List all DEWALT connected tools registered to the account
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "tool-connect.list-tools"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-battery-status
+          description: Check battery charge level, health, and diagnostic data
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "tool-connect.get-battery"
+          with:
+            batteryId: "tools.batteryId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-jobsite-assets
+          description: List all tools, batteries, and tagged assets at a jobsite
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "tool-connect.list-assets"
+          with:
+            jobsiteId: "tools.jobsiteId"
+          outputParameters:
+            - type: object
+              mapping: "$."

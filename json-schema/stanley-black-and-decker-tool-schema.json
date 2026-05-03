@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12",
+  "$id": "https://api.dewalt.com/schemas/tool",
+  "title": "DEWALT Connected Tool",
+  "description": "A DEWALT Tool Connect-registered power tool with connectivity status, firmware, and usage data.",
+  "type": "object",
+  "required": ["id", "model", "serialNumber", "brand"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the tool"
+    },
+    "name": {
+      "type": "string",
+      "description": "User-defined display name for the tool"
+    },
+    "model": {
+      "type": "string",
+      "description": "DEWALT model number (e.g., DCD999)"
+    },
+    "serialNumber": {
+      "type": "string",
+      "description": "Manufacturer serial number used for registration"
+    },
+    "type": {
+      "type": "string",
+      "description": "Tool category",
+      "enum": ["drill", "saw", "grinder", "sander", "nailer", "light", "vacuum", "other"]
+    },
+    "brand": {
+      "type": "string",
+      "description": "Stanley Black & Decker brand",
+      "enum": ["DEWALT", "Stanley", "Craftsman", "Black+Decker"]
+    },
+    "status": {
+      "type": "string",
+      "description": "Current Bluetooth connectivity status",
+      "enum": ["connected", "disconnected"]
+    },
+    "jobsiteId": {
+      "type": "string",
+      "description": "Identifier of the jobsite where the tool is assigned"
+    },
+    "firmwareVersion": {
+      "type": "string",
+      "description": "Current firmware version installed on the tool"
+    },
+    "purchaseDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the tool was purchased"
+    },
+    "warrantyExpiry": {
+      "type": "string",
+      "format": "date",
+      "description": "Warranty expiration date"
+    },
+    "lastSeen": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of last Bluetooth connection"
+    },
+    "totalRuntime": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Total accumulated operational runtime in hours"
+    },
+    "assignedUserId": {
+      "type": "string",
+      "description": "User identifier of the worker assigned this tool"
+    },
+    "registeredAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the tool was registered to the account"
+    }
+  },
+  "examples": [
+    {
+      "id": "tool_dcd999_001",
+      "name": "Drill - Tower B",
+      "model": "DCD999",
+      "serialNumber": "SN2024001234",
+      "type": "drill",
+      "brand": "DEWALT",
+      "status": "connected",
+      "jobsiteId": "jobsite_downtown_tower",
+      "firmwareVersion": "2.1.4",
+      "purchaseDate": "2024-06-15",
+      "warrantyExpiry": "2027-06-15",
+      "lastSeen": "2026-05-02T08:30:00Z",
+      "totalRuntime": 142.5,
+      "registeredAt": "2024-06-20T14:00:00Z"
+    }
+  ]
+}

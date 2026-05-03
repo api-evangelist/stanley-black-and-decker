@@ -1,0 +1,43 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://api.dewalt.com/v1/tools?jobsiteId=jobsite_downtown_tower&limit=5",
+    "headers": {
+      "Authorization": "Bearer {token}",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "total": 24,
+      "tools": [
+        {
+          "id": "tool_dcd999_001",
+          "name": "Hammer Drill - Level 4",
+          "model": "DCD999",
+          "serialNumber": "SN2024001234",
+          "type": "drill",
+          "brand": "DEWALT",
+          "status": "connected",
+          "jobsiteId": "jobsite_downtown_tower",
+          "lastSeen": "2026-05-02T08:30:00Z"
+        },
+        {
+          "id": "tool_dcs334_002",
+          "name": "Reciprocating Saw - Floor 3",
+          "model": "DCS334",
+          "serialNumber": "SN2024002567",
+          "type": "saw",
+          "brand": "DEWALT",
+          "status": "disconnected",
+          "jobsiteId": "jobsite_downtown_tower",
+          "lastSeen": "2026-05-01T16:45:00Z"
+        }
+      ]
+    }
+  }
+}

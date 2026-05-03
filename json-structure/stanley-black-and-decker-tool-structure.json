@@ -1,0 +1,21 @@
+{
+  "name": "Tool",
+  "description": "DEWALT Tool Connect-registered power tool with connectivity and usage data",
+  "fields": [
+    {"name": "id", "type": "string", "required": true, "description": "Unique tool identifier"},
+    {"name": "name", "type": "string", "required": false, "description": "User-defined name"},
+    {"name": "model", "type": "string", "required": true, "description": "DEWALT model number"},
+    {"name": "serialNumber", "type": "string", "required": true, "description": "Manufacturer serial number"},
+    {"name": "type", "type": "string", "required": false, "description": "Tool category"},
+    {"name": "brand", "type": "string", "required": true, "description": "SBD brand (DEWALT, Stanley, etc.)"},
+    {"name": "status", "type": "string", "required": false, "description": "Connectivity status"},
+    {"name": "jobsiteId", "type": "string", "required": false, "description": "Assigned jobsite"},
+    {"name": "firmwareVersion", "type": "string", "required": false, "description": "Current firmware"},
+    {"name": "purchaseDate", "type": "string", "required": false, "description": "Purchase date"},
+    {"name": "warrantyExpiry", "type": "string", "required": false, "description": "Warranty expiry date"},
+    {"name": "lastSeen", "type": "string", "required": false, "description": "Last Bluetooth connection timestamp"},
+    {"name": "totalRuntime", "type": "number", "required": false, "description": "Total operational hours"},
+    {"name": "assignedUserId", "type": "string", "required": false, "description": "Assigned worker"},
+    {"name": "registeredAt", "type": "string", "required": false, "description": "Registration timestamp"}
+  ]
+}
