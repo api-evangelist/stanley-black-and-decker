@@ -1,0 +1,313 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Stanley Black & Decker Tool Connect API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tools",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Tools",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dewalt.com/v1/tools",
+            "params": [
+              {
+                "name": "jobsiteId",
+                "value": "",
+                "type": "query",
+                "description": "Filter tools by jobsite"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by connectivity status"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Pagination offset"
+              }
+            ]
+          },
+          "docs": "Returns all Tool Connect-registered tools associated with the authenticated account, including tool type, model, serial number, and connectivity status."
+        },
+        {
+          "info": {
+            "name": "Get Tool",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dewalt.com/v1/tools/:toolId",
+            "params": [
+              {
+                "name": "toolId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the tool"
+              }
+            ]
+          },
+          "docs": "Returns detailed information for a specific connected tool including model details, firmware version, usage statistics, and current status."
+        },
+        {
+          "info": {
+            "name": "Get Tool Usage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dewalt.com/v1/tools/:toolId/usage",
+            "params": [
+              {
+                "name": "toolId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the tool"
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start date for usage data (ISO 8601)"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "End date for usage data (ISO 8601)"
+              }
+            ]
+          },
+          "docs": "Returns usage statistics and runtime data for a specific connected tool, including operational hours, trigger events, and battery consumption."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Batteries",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Batteries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dewalt.com/v1/batteries",
+            "params": [
+              {
+                "name": "jobsiteId",
+                "value": "",
+                "type": "query",
+                "description": "Filter batteries by jobsite"
+              },
+              {
+                "name": "chargeStatus",
+                "value": "",
+                "type": "query",
+                "description": "Filter by charge status"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              }
+            ]
+          },
+          "docs": "Returns all Tool Connect-registered batteries associated with the authenticated account, including charge level, health status, and paired tool information."
+        },
+        {
+          "info": {
+            "name": "Get Battery",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dewalt.com/v1/batteries/:batteryId",
+            "params": [
+              {
+                "name": "batteryId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the battery"
+              }
+            ]
+          },
+          "docs": "Returns detailed status and health information for a specific registered battery, including charge cycles, temperature, and diagnostic data."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Assets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Assets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dewalt.com/v1/assets",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by asset type"
+              },
+              {
+                "name": "jobsiteId",
+                "value": "",
+                "type": "query",
+                "description": "Filter assets by jobsite"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns all trackable assets (tools, batteries, tags, and connectors) registered to the authenticated account with their current location and status."
+        },
+        {
+          "info": {
+            "name": "Register Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.dewalt.com/v1/assets",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Registers a new asset (tool, battery, or tag) to the authenticated account using its QR code or serial number for inventory tracking."
+        },
+        {
+          "info": {
+            "name": "Get Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dewalt.com/v1/assets/:assetId",
+            "params": [
+              {
+                "name": "assetId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the asset"
+              }
+            ]
+          },
+          "docs": "Returns detailed information for a specific asset including registration details, current jobsite assignment, and last known location."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Jobsites",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Jobsites",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dewalt.com/v1/jobsites"
+          },
+          "docs": "Returns all jobsites configured for the authenticated account with their asset inventory and team assignments."
+        },
+        {
+          "info": {
+            "name": "Create Jobsite",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.dewalt.com/v1/jobsites",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new jobsite for organizing tool and asset inventory by project location."
+        },
+        {
+          "info": {
+            "name": "Get Jobsite",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dewalt.com/v1/jobsites/:jobsiteId",
+            "params": [
+              {
+                "name": "jobsiteId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the jobsite"
+              }
+            ]
+          },
+          "docs": "Returns detailed information for a specific jobsite including asset inventory, team members, and activity summary."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dewalt.com/v1/users"
+          },
+          "docs": "Returns all users in the authenticated account's Tool Connect organization with their roles and jobsite assignments."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

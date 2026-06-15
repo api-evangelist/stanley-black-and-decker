@@ -1,13 +1,25 @@
-# Stanley Black & Decker
+# Stanley Black & Decker (stanley-black-and-decker)
 
 Stanley Black & Decker is a global manufacturer and marketer of hand tools, power tools, and related accessories. Through brands like DEWALT, Stanley, Craftsman, and Black+Decker, the company provides connected tool management platforms, IoT solutions, and partner integrations for jobsite productivity.
 
-- **Website:** [https://www.stanleyblackanddecker.com/](https://www.stanleyblackanddecker.com/)
-- **DEWALT Website:** [https://www.dewalt.com/](https://www.dewalt.com/)
-- **Tool Connect Portal:** [https://sitemanager.dewalt.com/](https://sitemanager.dewalt.com/)
-- **GitHub Org:** [https://github.com/StanleyInnovation](https://github.com/StanleyInnovation)
-- **Privacy Policy:** [https://www.stanleyblackanddecker.com/privacy-notice](https://www.stanleyblackanddecker.com/privacy-notice)
-- **Terms of Service:** [https://www.stanleyblackanddecker.com/terms-use](https://www.stanleyblackanddecker.com/terms-use)
+**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/stanley-black-and-decker/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/stanley-black-and-decker/refs/heads/main/apis.yml)
+
+## Scope
+
+- **Type:** Index
+
+## Tags
+
+- Tools
+- Hardware
+- Manufacturing
+- IoT
+- Connected Tools
+
+## Timestamps
+
+- **Created:** 2024-01-01
+- **Modified:** 2026-05-19
 
 ## APIs
 
@@ -15,84 +27,48 @@ Stanley Black & Decker is a global manufacturer and marketer of hand tools, powe
 
 The DEWALT Tool Connect API enables integration with DEWALT's connected tool management platform, allowing partners to access tool inventory, track assets, manage Bluetooth-connected products, and synchronize jobsite data. Used by fleet management and construction software providers.
 
-**Tags:** Connected Tools, IoT, Tool Management, Jobsite
+#### Tags
 
-| Resource | URL |
-|---|---|
-| Portal | [https://sitemanager.dewalt.com/](https://sitemanager.dewalt.com/) |
-| Documentation | [https://www.dewalt.com/systems/tool-connect](https://www.dewalt.com/systems/tool-connect) |
-| OpenAPI | [openapi/stanley-black-and-decker-tool-connect-api-openapi.yml](openapi/stanley-black-and-decker-tool-connect-api-openapi.yml) |
-| Spectral Rules | [rules/stanley-black-and-decker-rules.yml](rules/stanley-black-and-decker-rules.yml) |
-| Capabilities | [capabilities/jobsite-tool-management.yaml](capabilities/jobsite-tool-management.yaml) |
+- Connected Tools
+- IoT
+- Tool Management
+- Jobsite
+
+#### Properties
+
+- [Portal](https://sitemanager.dewalt.com/)
+- [Documentation](https://www.dewalt.com/systems/tool-connect)
+- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/stanley-black-and-decker/refs/heads/main/openapi/stanley-black-and-decker-tool-connect-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Spectral Rules](https://raw.githubusercontent.com/api-evangelist/stanley-black-and-decker/refs/heads/main/rules/stanley-black-and-decker-rules.yml)
+- [Postman Collection](collections/stanley-black-and-decker-tool-connect-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/stanley-black-and-decker-tool-connect-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
 ### Stanley X IoT API
 
-Stanley X is the innovation arm of Stanley Black & Decker providing IoT connectivity APIs for smart factory solutions, equipment management, and digital manufacturing workflows.
+Stanley X is the innovation arm of Stanley Black & Decker that provides IoT connectivity APIs enabling smart factory solutions, equipment management, and digital manufacturing workflows. Partners integrate via REST APIs to connect hardware systems with digital management platforms.
 
-**Tags:** IoT, Smart Factory, Industrial, Manufacturing
+#### Tags
 
-## OpenAPI Specifications
+- IoT
+- Smart Factory
+- Industrial
+- Manufacturing
 
-| API | File |
-|---|---|
-| DEWALT Tool Connect API | [openapi/stanley-black-and-decker-tool-connect-api-openapi.yml](openapi/stanley-black-and-decker-tool-connect-api-openapi.yml) |
+#### Properties
 
-**Operations:** List Tools, Get Tool, Get Tool Usage, List Batteries, Get Battery, List Assets, Register Asset, Get Asset, List Jobsites, Create Jobsite, Get Jobsite, List Users
+- [Website](https://www.stanleyblackanddecker.com/)
+- [Postman Collection](collections/stanley-black-and-decker-tool-connect-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/stanley-black-and-decker-tool-connect-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
-## Capabilities
+## Common Properties
 
-### Shared Definitions
-
-| File | Description |
-|---|---|
-| [capabilities/shared/tool-connect-api.yaml](capabilities/shared/tool-connect-api.yaml) | DEWALT Tool Connect API — connected tool and asset management |
-
-### Workflow Capabilities
-
-| Capability | File | Description |
-|---|---|---|
-| Jobsite Tool Management | [capabilities/jobsite-tool-management.yaml](capabilities/jobsite-tool-management.yaml) | Full jobsite tool tracking, battery health, asset registration, and team management |
-
-## Spectral Rules
-
-| File | Description |
-|---|---|
-| [rules/stanley-black-and-decker-rules.yml](rules/stanley-black-and-decker-rules.yml) | Spectral ruleset enforcing Stanley Black & Decker API conventions |
-
-## JSON Schemas
-
-| Schema | File |
-|---|---|
-| Tool | [json-schema/stanley-black-and-decker-tool-schema.json](json-schema/stanley-black-and-decker-tool-schema.json) |
-| Battery | [json-schema/stanley-black-and-decker-battery-schema.json](json-schema/stanley-black-and-decker-battery-schema.json) |
-
-## JSON Structures
-
-| Structure | File |
-|---|---|
-| Tool | [json-structure/stanley-black-and-decker-tool-structure.json](json-structure/stanley-black-and-decker-tool-structure.json) |
-
-## JSON-LD Context
-
-| File | Description |
-|---|---|
-| [json-ld/stanley-black-and-decker-context.jsonld](json-ld/stanley-black-and-decker-context.jsonld) | JSON-LD context mapping SBD connected tool concepts to schema.org and IoT ontologies |
-
-## Examples
-
-| Example | File |
-|---|---|
-| List Tools | [examples/stanley-black-and-decker-list-tools-example.json](examples/stanley-black-and-decker-list-tools-example.json) |
-| Register Asset | [examples/stanley-black-and-decker-register-asset-example.json](examples/stanley-black-and-decker-register-asset-example.json) |
-
-## Vocabulary
-
-| File | Description |
-|---|---|
-| [vocabulary/stanley-black-and-decker-vocabulary.yml](vocabulary/stanley-black-and-decker-vocabulary.yml) | Domain vocabulary for DEWALT connected tools, IoT, and jobsite management concepts |
-
-## Maintainers
-
-**FN:** API Evangelist
-
-**Email:** info@apievangelist.com
+- [Website](https://www.stanleyblackanddecker.com/)
+- [Website](https://www.dewalt.com/)
+- [Portal](https://developer.stanley.com/)
+- [Portal](https://sitemanager.dewalt.com/)
+- [Blog](https://www.stanleyblackanddecker.com/news-stories)
+- [Privacy Policy](https://www.stanleyblackanddecker.com/privacy-notice)
+- [Terms of Service](https://www.stanleyblackanddecker.com/terms-use)
+- [Git Hub Org](https://github.com/StanleyInnovation)
+- [X (Twitter)](https://x.com/SBDinnovates)
+- [LinkedIn](https://www.linkedin.com/company/stanley-black-and-decker)
