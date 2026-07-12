@@ -54,6 +54,10 @@ apis:
       factory solutions, equipment management, and digital manufacturing workflows. Partners integrate via REST APIs to
       connect hardware systems with digital management platforms.
 common:
+  - type: DomainSecurity
+    url: security/stanley-black-and-decker-domain-security.yml
+  - type: Authentication
+    url: authentication/stanley-black-and-decker-authentication.yml
   - url: https://www.stanleyblackanddecker.com/
     type: Website
   - url: https://www.dewalt.com/
