@@ -3,10 +3,9 @@
   "feeds": [
     {
       "source": "https://www.stanleyblackanddecker.com/news-stories",
-      "saved": 0,
       "error": "TimeoutError"
     }
   ],
   "post_count": 5,
-  "fetched": "2026-06-27T13:14:53Z"
+  "fetched": "2026-07-11T11:50:51Z"
 }
