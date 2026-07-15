@@ -54,6 +54,8 @@ apis:
       factory solutions, equipment management, and digital manufacturing workflows. Partners integrate via REST APIs to
       connect hardware systems with digital management platforms.
 common:
+  - type: AgenticAccess
+    url: agentic-access/stanley-black-and-decker-agentic-access.yml
   - type: DomainSecurity
     url: security/stanley-black-and-decker-domain-security.yml
   - type: Authentication
