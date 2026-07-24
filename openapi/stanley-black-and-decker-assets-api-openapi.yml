@@ -1,0 +1,191 @@
+openapi: 3.1.0
+info:
+  title: Stanley Black & Decker Tool Connect Assets API
+  description: The Stanley Black & Decker Tool Connect API enables partner integration with DEWALT's connected tool management platform. Partners can access tool inventory, track Bluetooth-connected tools and batteries, manage jobsite assets, and synchronize tool usage data. Used by fleet management software, construction platforms, and enterprise tool management solutions.
+  version: '1.0'
+  contact:
+    name: DEWALT Developer Support
+    url: https://sitemanager.dewalt.com/
+  termsOfService: https://www.stanleyblackanddecker.com/terms-use
+servers:
+- url: https://api.dewalt.com
+  description: Production
+security:
+- bearerAuth: []
+tags:
+- name: Assets
+  description: Asset inventory and tracking operations
+paths:
+  /v1/assets:
+    get:
+      operationId: listAssets
+      summary: List Assets
+      description: Returns all trackable assets (tools, batteries, tags, and connectors) registered to the authenticated account with their current location and status.
+      tags:
+      - Assets
+      parameters:
+      - name: type
+        in: query
+        required: false
+        description: Filter by asset type
+        schema:
+          type: string
+          enum:
+          - tool
+          - battery
+          - tag
+          - connector
+      - name: jobsiteId
+        in: query
+        required: false
+        description: Filter assets by jobsite
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 50
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  assets:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Asset'
+                  total:
+                    type: integer
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests
+    post:
+      operationId: registerAsset
+      summary: Register Asset
+      description: Registers a new asset (tool, battery, or tag) to the authenticated account using its QR code or serial number for inventory tracking.
+      tags:
+      - Assets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterAssetRequest'
+      responses:
+        '201':
+          description: Asset Registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '409':
+          description: Asset Already Registered
+        '429':
+          description: Too Many Requests
+  /v1/assets/{assetId}:
+    get:
+      operationId: getAsset
+      summary: Get Asset
+      description: Returns detailed information for a specific asset including registration details, current jobsite assignment, and last known location.
+      tags:
+      - Assets
+      parameters:
+      - name: assetId
+        in: path
+        required: true
+        description: The unique identifier of the asset
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetDetail'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Asset Not Found
+        '429':
+          description: Too Many Requests
+components:
+  schemas:
+    AssetDetail:
+      allOf:
+      - $ref: '#/components/schemas/Asset'
+      - type: object
+        properties:
+          registeredAt:
+            type: string
+            format: date-time
+          lastSeen:
+            type: string
+            format: date-time
+          assignedUserId:
+            type: string
+          notes:
+            type: string
+    Asset:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - tool
+          - battery
+          - tag
+          - connector
+        name:
+          type: string
+        serialNumber:
+          type: string
+        jobsiteId:
+          type: string
+        status:
+          type: string
+          enum:
+          - active
+          - missing
+          - inactive
+    RegisterAssetRequest:
+      type: object
+      required:
+      - serialNumber
+      - type
+      properties:
+        serialNumber:
+          type: string
+        type:
+          type: string
+          enum:
+          - tool
+          - battery
+          - tag
+          - connector
+        jobsiteId:
+          type: string
+        name:
+          type: string
+        notes:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+externalDocs:
+  description: DEWALT Tool Connect
+  url: https://www.dewalt.com/systems/tool-connect

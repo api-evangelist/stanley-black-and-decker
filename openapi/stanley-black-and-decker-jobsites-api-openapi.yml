@@ -1,0 +1,224 @@
+openapi: 3.1.0
+info:
+  title: Stanley Black & Decker Tool Connect Assets Jobsites API
+  description: The Stanley Black & Decker Tool Connect API enables partner integration with DEWALT's connected tool management platform. Partners can access tool inventory, track Bluetooth-connected tools and batteries, manage jobsite assets, and synchronize tool usage data. Used by fleet management software, construction platforms, and enterprise tool management solutions.
+  version: '1.0'
+  contact:
+    name: DEWALT Developer Support
+    url: https://sitemanager.dewalt.com/
+  termsOfService: https://www.stanleyblackanddecker.com/terms-use
+servers:
+- url: https://api.dewalt.com
+  description: Production
+security:
+- bearerAuth: []
+tags:
+- name: Jobsites
+  description: Jobsite management operations
+paths:
+  /v1/jobsites:
+    get:
+      operationId: listJobsites
+      summary: List Jobsites
+      description: Returns all jobsites configured for the authenticated account with their asset inventory and team assignments.
+      tags:
+      - Jobsites
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobsites:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Jobsite'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests
+    post:
+      operationId: createJobsite
+      summary: Create Jobsite
+      description: Creates a new jobsite for organizing tool and asset inventory by project location.
+      tags:
+      - Jobsites
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateJobsiteRequest'
+      responses:
+        '201':
+          description: Jobsite Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jobsite'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests
+  /v1/jobsites/{jobsiteId}:
+    get:
+      operationId: getJobsite
+      summary: Get Jobsite
+      description: Returns detailed information for a specific jobsite including asset inventory, team members, and activity summary.
+      tags:
+      - Jobsites
+      parameters:
+      - name: jobsiteId
+        in: path
+        required: true
+        description: The unique identifier of the jobsite
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobsiteDetail'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Jobsite Not Found
+        '429':
+          description: Too Many Requests
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+          enum:
+          - admin
+          - manager
+          - worker
+        jobsiteIds:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+    JobsiteDetail:
+      allOf:
+      - $ref: '#/components/schemas/Jobsite'
+      - type: object
+        properties:
+          tools:
+            type: array
+            items:
+              $ref: '#/components/schemas/Tool'
+          batteries:
+            type: array
+            items:
+              $ref: '#/components/schemas/Battery'
+          users:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
+    Tool:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        model:
+          type: string
+        serialNumber:
+          type: string
+        type:
+          type: string
+        brand:
+          type: string
+          enum:
+          - DEWALT
+          - Stanley
+          - Craftsman
+          - Black+Decker
+        status:
+          type: string
+          enum:
+          - connected
+          - disconnected
+        jobsiteId:
+          type: string
+        registeredAt:
+          type: string
+          format: date-time
+    Battery:
+      type: object
+      properties:
+        id:
+          type: string
+        model:
+          type: string
+        serialNumber:
+          type: string
+        chargeLevel:
+          type: integer
+          description: Charge percentage 0-100
+        chargeStatus:
+          type: string
+          enum:
+          - charged
+          - charging
+          - low
+          - critical
+        pairedToolId:
+          type: string
+        jobsiteId:
+          type: string
+    CreateJobsiteRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        description:
+          type: string
+    Jobsite:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        address:
+          type: string
+        toolCount:
+          type: integer
+        batteryCount:
+          type: integer
+        userCount:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+externalDocs:
+  description: DEWALT Tool Connect
+  url: https://www.dewalt.com/systems/tool-connect
