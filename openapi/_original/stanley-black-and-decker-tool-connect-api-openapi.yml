@@ -1,0 +1,702 @@
+openapi: 3.1.0
+info:
+  title: Stanley Black & Decker Tool Connect API
+  description: >-
+    The Stanley Black & Decker Tool Connect API enables partner integration with DEWALT's connected tool management platform. Partners can access tool inventory, track Bluetooth-connected tools and batteries, manage jobsite assets, and synchronize tool usage data. Used by fleet management software, construction platforms, and enterprise tool management solutions.
+  version: '1.0'
+  contact:
+    name: DEWALT Developer Support
+    url: https://sitemanager.dewalt.com/
+  termsOfService: https://www.stanleyblackanddecker.com/terms-use
+externalDocs:
+  description: DEWALT Tool Connect
+  url: https://www.dewalt.com/systems/tool-connect
+servers:
+  - url: https://api.dewalt.com
+    description: Production
+tags:
+  - name: Tools
+    description: Connected tool management operations
+  - name: Batteries
+    description: Battery tracking and status operations
+  - name: Assets
+    description: Asset inventory and tracking operations
+  - name: Jobsites
+    description: Jobsite management operations
+  - name: Users
+    description: User and team management operations
+security:
+  - bearerAuth: []
+paths:
+  /v1/tools:
+    get:
+      operationId: listTools
+      summary: List Tools
+      description: >-
+        Returns all Tool Connect-registered tools associated with the authenticated account, including tool type, model, serial number, and connectivity status.
+      tags:
+        - Tools
+      parameters:
+        - name: jobsiteId
+          in: query
+          required: false
+          description: Filter tools by jobsite
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          description: Filter by connectivity status
+          schema:
+            type: string
+            enum:
+              - connected
+              - disconnected
+              - all
+        - name: limit
+          in: query
+          required: false
+          description: Maximum number of results to return
+          schema:
+            type: integer
+            default: 50
+        - name: offset
+          in: query
+          required: false
+          description: Pagination offset
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tools:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Tool'
+                  total:
+                    type: integer
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests
+  /v1/tools/{toolId}:
+    get:
+      operationId: getTool
+      summary: Get Tool
+      description: >-
+        Returns detailed information for a specific connected tool including model details, firmware version, usage statistics, and current status.
+      tags:
+        - Tools
+      parameters:
+        - name: toolId
+          in: path
+          required: true
+          description: The unique identifier of the tool
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolDetail'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Tool Not Found
+        '429':
+          description: Too Many Requests
+  /v1/tools/{toolId}/usage:
+    get:
+      operationId: getToolUsage
+      summary: Get Tool Usage
+      description: >-
+        Returns usage statistics and runtime data for a specific connected tool, including operational hours, trigger events, and battery consumption.
+      tags:
+        - Tools
+      parameters:
+        - name: toolId
+          in: path
+          required: true
+          description: The unique identifier of the tool
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          required: false
+          description: Start date for usage data (ISO 8601)
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: false
+          description: End date for usage data (ISO 8601)
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolUsage'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Tool Not Found
+        '429':
+          description: Too Many Requests
+  /v1/batteries:
+    get:
+      operationId: listBatteries
+      summary: List Batteries
+      description: >-
+        Returns all Tool Connect-registered batteries associated with the authenticated account, including charge level, health status, and paired tool information.
+      tags:
+        - Batteries
+      parameters:
+        - name: jobsiteId
+          in: query
+          required: false
+          description: Filter batteries by jobsite
+          schema:
+            type: string
+        - name: chargeStatus
+          in: query
+          required: false
+          description: Filter by charge status
+          schema:
+            type: string
+            enum:
+              - charged
+              - charging
+              - low
+              - critical
+        - name: limit
+          in: query
+          required: false
+          description: Maximum number of results to return
+          schema:
+            type: integer
+            default: 50
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  batteries:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Battery'
+                  total:
+                    type: integer
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests
+  /v1/batteries/{batteryId}:
+    get:
+      operationId: getBattery
+      summary: Get Battery
+      description: >-
+        Returns detailed status and health information for a specific registered battery, including charge cycles, temperature, and diagnostic data.
+      tags:
+        - Batteries
+      parameters:
+        - name: batteryId
+          in: path
+          required: true
+          description: The unique identifier of the battery
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatteryDetail'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Battery Not Found
+        '429':
+          description: Too Many Requests
+  /v1/assets:
+    get:
+      operationId: listAssets
+      summary: List Assets
+      description: >-
+        Returns all trackable assets (tools, batteries, tags, and connectors) registered to the authenticated account with their current location and status.
+      tags:
+        - Assets
+      parameters:
+        - name: type
+          in: query
+          required: false
+          description: Filter by asset type
+          schema:
+            type: string
+            enum:
+              - tool
+              - battery
+              - tag
+              - connector
+        - name: jobsiteId
+          in: query
+          required: false
+          description: Filter assets by jobsite
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 50
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  assets:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Asset'
+                  total:
+                    type: integer
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests
+    post:
+      operationId: registerAsset
+      summary: Register Asset
+      description: >-
+        Registers a new asset (tool, battery, or tag) to the authenticated account using its QR code or serial number for inventory tracking.
+      tags:
+        - Assets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterAssetRequest'
+      responses:
+        '201':
+          description: Asset Registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '409':
+          description: Asset Already Registered
+        '429':
+          description: Too Many Requests
+  /v1/assets/{assetId}:
+    get:
+      operationId: getAsset
+      summary: Get Asset
+      description: >-
+        Returns detailed information for a specific asset including registration details, current jobsite assignment, and last known location.
+      tags:
+        - Assets
+      parameters:
+        - name: assetId
+          in: path
+          required: true
+          description: The unique identifier of the asset
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetDetail'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Asset Not Found
+        '429':
+          description: Too Many Requests
+  /v1/jobsites:
+    get:
+      operationId: listJobsites
+      summary: List Jobsites
+      description: >-
+        Returns all jobsites configured for the authenticated account with their asset inventory and team assignments.
+      tags:
+        - Jobsites
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobsites:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Jobsite'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests
+    post:
+      operationId: createJobsite
+      summary: Create Jobsite
+      description: >-
+        Creates a new jobsite for organizing tool and asset inventory by project location.
+      tags:
+        - Jobsites
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateJobsiteRequest'
+      responses:
+        '201':
+          description: Jobsite Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jobsite'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests
+  /v1/jobsites/{jobsiteId}:
+    get:
+      operationId: getJobsite
+      summary: Get Jobsite
+      description: >-
+        Returns detailed information for a specific jobsite including asset inventory, team members, and activity summary.
+      tags:
+        - Jobsites
+      parameters:
+        - name: jobsiteId
+          in: path
+          required: true
+          description: The unique identifier of the jobsite
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobsiteDetail'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Jobsite Not Found
+        '429':
+          description: Too Many Requests
+  /v1/users:
+    get:
+      operationId: listUsers
+      summary: List Users
+      description: >-
+        Returns all users in the authenticated account's Tool Connect organization with their roles and jobsite assignments.
+      tags:
+        - Users
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+        '429':
+          description: Too Many Requests
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Tool:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        model:
+          type: string
+        serialNumber:
+          type: string
+        type:
+          type: string
+        brand:
+          type: string
+          enum:
+            - DEWALT
+            - Stanley
+            - Craftsman
+            - Black+Decker
+        status:
+          type: string
+          enum:
+            - connected
+            - disconnected
+        jobsiteId:
+          type: string
+        registeredAt:
+          type: string
+          format: date-time
+    ToolDetail:
+      allOf:
+        - $ref: '#/components/schemas/Tool'
+        - type: object
+          properties:
+            firmwareVersion:
+              type: string
+            purchaseDate:
+              type: string
+              format: date
+            warrantyExpiry:
+              type: string
+              format: date
+            lastSeen:
+              type: string
+              format: date-time
+            totalRuntime:
+              type: number
+              description: Total operational runtime in hours
+            assignedUserId:
+              type: string
+    ToolUsage:
+      type: object
+      properties:
+        toolId:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        totalHours:
+          type: number
+        triggerEvents:
+          type: integer
+        sessions:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+              hours:
+                type: number
+              events:
+                type: integer
+    Battery:
+      type: object
+      properties:
+        id:
+          type: string
+        model:
+          type: string
+        serialNumber:
+          type: string
+        chargeLevel:
+          type: integer
+          description: Charge percentage 0-100
+        chargeStatus:
+          type: string
+          enum:
+            - charged
+            - charging
+            - low
+            - critical
+        pairedToolId:
+          type: string
+        jobsiteId:
+          type: string
+    BatteryDetail:
+      allOf:
+        - $ref: '#/components/schemas/Battery'
+        - type: object
+          properties:
+            health:
+              type: string
+              enum:
+                - good
+                - fair
+                - poor
+                - replace
+            chargeCycles:
+              type: integer
+            temperature:
+              type: number
+              description: Temperature in Celsius
+            voltage:
+              type: number
+            capacity:
+              type: number
+              description: Current capacity vs rated capacity percentage
+    Asset:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+            - tool
+            - battery
+            - tag
+            - connector
+        name:
+          type: string
+        serialNumber:
+          type: string
+        jobsiteId:
+          type: string
+        status:
+          type: string
+          enum:
+            - active
+            - missing
+            - inactive
+    AssetDetail:
+      allOf:
+        - $ref: '#/components/schemas/Asset'
+        - type: object
+          properties:
+            registeredAt:
+              type: string
+              format: date-time
+            lastSeen:
+              type: string
+              format: date-time
+            assignedUserId:
+              type: string
+            notes:
+              type: string
+    RegisterAssetRequest:
+      type: object
+      required:
+        - serialNumber
+        - type
+      properties:
+        serialNumber:
+          type: string
+        type:
+          type: string
+          enum:
+            - tool
+            - battery
+            - tag
+            - connector
+        jobsiteId:
+          type: string
+        name:
+          type: string
+        notes:
+          type: string
+    Jobsite:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        address:
+          type: string
+        toolCount:
+          type: integer
+        batteryCount:
+          type: integer
+        userCount:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+    JobsiteDetail:
+      allOf:
+        - $ref: '#/components/schemas/Jobsite'
+        - type: object
+          properties:
+            tools:
+              type: array
+              items:
+                $ref: '#/components/schemas/Tool'
+            batteries:
+              type: array
+              items:
+                $ref: '#/components/schemas/Battery'
+            users:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
+    CreateJobsiteRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        description:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+          enum:
+            - admin
+            - manager
+            - worker
+        jobsiteIds:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time

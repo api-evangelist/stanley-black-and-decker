@@ -1,0 +1,22 @@
+{
+  "provider": "stanley-black-and-decker",
+  "sources": [
+    "stanley-black-and-decker-assets-api-openapi.yml",
+    "stanley-black-and-decker-batteries-api-openapi.yml",
+    "stanley-black-and-decker-jobsites-api-openapi.yml",
+    "stanley-black-and-decker-tools-api-openapi.yml",
+    "stanley-black-and-decker-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "stanley-black-and-decker-assets-api-openapi.yml",
+    "stanley-black-and-decker-batteries-api-openapi.yml",
+    "stanley-black-and-decker-jobsites-api-openapi.yml",
+    "stanley-black-and-decker-tools-api-openapi.yml",
+    "stanley-black-and-decker-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
