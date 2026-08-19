@@ -1,0 +1,88 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Stanley Black & Decker Tool Connect Assets API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Assets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Assets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dewalt.com/v1/assets",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by asset type"
+              },
+              {
+                "name": "jobsiteId",
+                "value": "",
+                "type": "query",
+                "description": "Filter assets by jobsite"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns all trackable assets (tools, batteries, tags, and connectors) registered to the authenticated account with their current location and status."
+        },
+        {
+          "info": {
+            "name": "Register Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.dewalt.com/v1/assets",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Registers a new asset (tool, battery, or tag) to the authenticated account using its QR code or serial number for inventory tracking."
+        },
+        {
+          "info": {
+            "name": "Get Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dewalt.com/v1/assets/:assetId",
+            "params": [
+              {
+                "name": "assetId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the asset"
+              }
+            ]
+          },
+          "docs": "Returns detailed information for a specific asset including registration details, current jobsite assignment, and last known location."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

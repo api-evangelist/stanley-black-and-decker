@@ -1,0 +1,74 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Stanley Black & Decker Tool Connect Assets Batteries API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Batteries",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Batteries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dewalt.com/v1/batteries",
+            "params": [
+              {
+                "name": "jobsiteId",
+                "value": "",
+                "type": "query",
+                "description": "Filter batteries by jobsite"
+              },
+              {
+                "name": "chargeStatus",
+                "value": "",
+                "type": "query",
+                "description": "Filter by charge status"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return"
+              }
+            ]
+          },
+          "docs": "Returns all Tool Connect-registered batteries associated with the authenticated account, including charge level, health status, and paired tool information."
+        },
+        {
+          "info": {
+            "name": "Get Battery",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dewalt.com/v1/batteries/:batteryId",
+            "params": [
+              {
+                "name": "batteryId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the battery"
+              }
+            ]
+          },
+          "docs": "Returns detailed status and health information for a specific registered battery, including charge cycles, temperature, and diagnostic data."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

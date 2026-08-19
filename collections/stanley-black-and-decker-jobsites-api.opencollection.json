@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Stanley Black & Decker Tool Connect Assets Jobsites API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Jobsites",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Jobsites",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dewalt.com/v1/jobsites"
+          },
+          "docs": "Returns all jobsites configured for the authenticated account with their asset inventory and team assignments."
+        },
+        {
+          "info": {
+            "name": "Create Jobsite",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.dewalt.com/v1/jobsites",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new jobsite for organizing tool and asset inventory by project location."
+        },
+        {
+          "info": {
+            "name": "Get Jobsite",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.dewalt.com/v1/jobsites/:jobsiteId",
+            "params": [
+              {
+                "name": "jobsiteId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the jobsite"
+              }
+            ]
+          },
+          "docs": "Returns detailed information for a specific jobsite including asset inventory, team members, and activity summary."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
