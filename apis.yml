@@ -109,6 +109,8 @@ apis:
   name: Stanley Black & Decker Users API
   description: User and team management operations
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
