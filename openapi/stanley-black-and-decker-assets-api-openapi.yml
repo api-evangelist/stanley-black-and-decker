@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Stanley Black & Decker Tool Connect Assets API
   description: The Stanley Black & Decker Tool Connect API enables partner integration with DEWALT's connected tool management platform. Partners can access tool inventory, track Bluetooth-connected tools and batteries, manage jobsite assets, and synchronize tool usage data. Used by fleet management software, construction platforms, and enterprise tool management solutions.
@@ -121,21 +121,6 @@ paths:
           description: Too Many Requests
 components:
   schemas:
-    AssetDetail:
-      allOf:
-      - $ref: '#/components/schemas/Asset'
-      - type: object
-        properties:
-          registeredAt:
-            type: string
-            format: date-time
-          lastSeen:
-            type: string
-            format: date-time
-          assignedUserId:
-            type: string
-          notes:
-            type: string
     Asset:
       type: object
       properties:
@@ -160,6 +145,21 @@ components:
           - active
           - missing
           - inactive
+    AssetDetail:
+      allOf:
+      - $ref: '#/components/schemas/Asset'
+      - type: object
+        properties:
+          registeredAt:
+            type: string
+            format: date-time
+          lastSeen:
+            type: string
+            format: date-time
+          assignedUserId:
+            type: string
+          notes:
+            type: string
     RegisterAssetRequest:
       type: object
       required:

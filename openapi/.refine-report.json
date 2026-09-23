@@ -1,11 +1,7 @@
 {
   "provider": "stanley-black-and-decker",
   "sources": [
-    "stanley-black-and-decker-assets-api-openapi.yml",
-    "stanley-black-and-decker-batteries-api-openapi.yml",
-    "stanley-black-and-decker-jobsites-api-openapi.yml",
-    "stanley-black-and-decker-tools-api-openapi.yml",
-    "stanley-black-and-decker-users-api-openapi.yml"
+    "_original/stanley-black-and-decker-tool-connect-api-openapi.yml"
   ],
   "outputs": [
     "stanley-black-and-decker-assets-api-openapi.yml",
@@ -17,6 +13,16 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "stanley-black-and-decker-tool-connect-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "stanley-black-and-decker-assets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "stanley-black-and-decker-batteries-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "stanley-black-and-decker-jobsites-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "stanley-black-and-decker-tools-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "stanley-black-and-decker-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

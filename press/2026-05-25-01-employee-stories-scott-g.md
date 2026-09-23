@@ -1,7 +1,9 @@
 ---
 title: 'Employee Stories: Scott G.'
 url: https://www.stanleyblackanddecker.com/careers/why-work-here/meet-our-employees/scott-g
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"Stanley Black & Decker" press release artificial intelligence'
 position: 1
 source: serpapi-google
