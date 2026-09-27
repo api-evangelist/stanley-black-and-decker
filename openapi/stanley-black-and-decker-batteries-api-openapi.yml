@@ -95,28 +95,6 @@ paths:
           description: Too Many Requests
 components:
   schemas:
-    BatteryDetail:
-      allOf:
-      - $ref: '#/components/schemas/Battery'
-      - type: object
-        properties:
-          health:
-            type: string
-            enum:
-            - good
-            - fair
-            - poor
-            - replace
-          chargeCycles:
-            type: integer
-          temperature:
-            type: number
-            description: Temperature in Celsius
-          voltage:
-            type: number
-          capacity:
-            type: number
-            description: Current capacity vs rated capacity percentage
     Battery:
       type: object
       properties:
@@ -140,6 +118,28 @@ components:
           type: string
         jobsiteId:
           type: string
+    BatteryDetail:
+      allOf:
+      - $ref: '#/components/schemas/Battery'
+      - type: object
+        properties:
+          health:
+            type: string
+            enum:
+            - good
+            - fair
+            - poor
+            - replace
+          chargeCycles:
+            type: integer
+          temperature:
+            type: number
+            description: Temperature in Celsius
+          voltage:
+            type: number
+          capacity:
+            type: number
+            description: Current capacity vs rated capacity percentage
   securitySchemes:
     bearerAuth:
       type: http

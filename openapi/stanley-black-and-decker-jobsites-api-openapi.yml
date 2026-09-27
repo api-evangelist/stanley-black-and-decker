@@ -93,23 +93,6 @@ paths:
           description: Too Many Requests
 components:
   schemas:
-    JobsiteDetail:
-      allOf:
-      - $ref: '#/components/schemas/Jobsite'
-      - type: object
-        properties:
-          tools:
-            type: array
-            items:
-              $ref: '#/components/schemas/Tool'
-          batteries:
-            type: array
-            items:
-              $ref: '#/components/schemas/Battery'
-          users:
-            type: array
-            items:
-              $ref: '#/components/schemas/User'
     Jobsite:
       type: object
       properties:
@@ -192,6 +175,23 @@ components:
           type: string
         description:
           type: string
+    JobsiteDetail:
+      allOf:
+      - $ref: '#/components/schemas/Jobsite'
+      - type: object
+        properties:
+          tools:
+            type: array
+            items:
+              $ref: '#/components/schemas/Tool'
+          batteries:
+            type: array
+            items:
+              $ref: '#/components/schemas/Battery'
+          users:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
     User:
       type: object
       properties:

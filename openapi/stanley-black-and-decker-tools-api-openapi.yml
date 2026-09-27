@@ -163,6 +163,33 @@ components:
             description: Total operational runtime in hours
           assignedUserId:
             type: string
+    ToolUsage:
+      type: object
+      properties:
+        toolId:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        totalHours:
+          type: number
+        triggerEvents:
+          type: integer
+        sessions:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+              hours:
+                type: number
+              events:
+                type: integer
     Tool:
       type: object
       properties:
@@ -193,33 +220,6 @@ components:
         registeredAt:
           type: string
           format: date-time
-    ToolUsage:
-      type: object
-      properties:
-        toolId:
-          type: string
-        startDate:
-          type: string
-          format: date
-        endDate:
-          type: string
-          format: date
-        totalHours:
-          type: number
-        triggerEvents:
-          type: integer
-        sessions:
-          type: array
-          items:
-            type: object
-            properties:
-              date:
-                type: string
-                format: date
-              hours:
-                type: number
-              events:
-                type: integer
   securitySchemes:
     bearerAuth:
       type: http
