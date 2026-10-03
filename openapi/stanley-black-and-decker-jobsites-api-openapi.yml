@@ -93,47 +93,6 @@ paths:
           description: Too Many Requests
 components:
   schemas:
-    Jobsite:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        address:
-          type: string
-        toolCount:
-          type: integer
-        batteryCount:
-          type: integer
-        userCount:
-          type: integer
-        createdAt:
-          type: string
-          format: date-time
-    Battery:
-      type: object
-      properties:
-        id:
-          type: string
-        model:
-          type: string
-        serialNumber:
-          type: string
-        chargeLevel:
-          type: integer
-          description: Charge percentage 0-100
-        chargeStatus:
-          type: string
-          enum:
-          - charged
-          - charging
-          - low
-          - critical
-        pairedToolId:
-          type: string
-        jobsiteId:
-          type: string
     Tool:
       type: object
       properties:
@@ -175,23 +134,24 @@ components:
           type: string
         description:
           type: string
-    JobsiteDetail:
-      allOf:
-      - $ref: '#/components/schemas/Jobsite'
-      - type: object
-        properties:
-          tools:
-            type: array
-            items:
-              $ref: '#/components/schemas/Tool'
-          batteries:
-            type: array
-            items:
-              $ref: '#/components/schemas/Battery'
-          users:
-            type: array
-            items:
-              $ref: '#/components/schemas/User'
+    Jobsite:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        address:
+          type: string
+        toolCount:
+          type: integer
+        batteryCount:
+          type: integer
+        userCount:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
     User:
       type: object
       properties:
@@ -214,6 +174,46 @@ components:
         createdAt:
           type: string
           format: date-time
+    Battery:
+      type: object
+      properties:
+        id:
+          type: string
+        model:
+          type: string
+        serialNumber:
+          type: string
+        chargeLevel:
+          type: integer
+          description: Charge percentage 0-100
+        chargeStatus:
+          type: string
+          enum:
+          - charged
+          - charging
+          - low
+          - critical
+        pairedToolId:
+          type: string
+        jobsiteId:
+          type: string
+    JobsiteDetail:
+      allOf:
+      - $ref: '#/components/schemas/Jobsite'
+      - type: object
+        properties:
+          tools:
+            type: array
+            items:
+              $ref: '#/components/schemas/Tool'
+          batteries:
+            type: array
+            items:
+              $ref: '#/components/schemas/Battery'
+          users:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
   securitySchemes:
     bearerAuth:
       type: http
