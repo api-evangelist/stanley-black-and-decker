@@ -136,27 +136,6 @@ components:
             type: string
           notes:
             type: string
-    RegisterAssetRequest:
-      type: object
-      required:
-      - serialNumber
-      - type
-      properties:
-        serialNumber:
-          type: string
-        type:
-          type: string
-          enum:
-          - tool
-          - battery
-          - tag
-          - connector
-        jobsiteId:
-          type: string
-        name:
-          type: string
-        notes:
-          type: string
     Asset:
       type: object
       properties:
@@ -181,6 +160,27 @@ components:
           - active
           - missing
           - inactive
+    RegisterAssetRequest:
+      type: object
+      required:
+      - serialNumber
+      - type
+      properties:
+        serialNumber:
+          type: string
+        type:
+          type: string
+          enum:
+          - tool
+          - battery
+          - tag
+          - connector
+        jobsiteId:
+          type: string
+        name:
+          type: string
+        notes:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

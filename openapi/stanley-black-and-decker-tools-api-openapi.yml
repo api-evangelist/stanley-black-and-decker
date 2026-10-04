@@ -142,54 +142,6 @@ paths:
           description: Too Many Requests
 components:
   schemas:
-    ToolDetail:
-      allOf:
-      - $ref: '#/components/schemas/Tool'
-      - type: object
-        properties:
-          firmwareVersion:
-            type: string
-          purchaseDate:
-            type: string
-            format: date
-          warrantyExpiry:
-            type: string
-            format: date
-          lastSeen:
-            type: string
-            format: date-time
-          totalRuntime:
-            type: number
-            description: Total operational runtime in hours
-          assignedUserId:
-            type: string
-    ToolUsage:
-      type: object
-      properties:
-        toolId:
-          type: string
-        startDate:
-          type: string
-          format: date
-        endDate:
-          type: string
-          format: date
-        totalHours:
-          type: number
-        triggerEvents:
-          type: integer
-        sessions:
-          type: array
-          items:
-            type: object
-            properties:
-              date:
-                type: string
-                format: date
-              hours:
-                type: number
-              events:
-                type: integer
     Tool:
       type: object
       properties:
@@ -220,6 +172,54 @@ components:
         registeredAt:
           type: string
           format: date-time
+    ToolUsage:
+      type: object
+      properties:
+        toolId:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        totalHours:
+          type: number
+        triggerEvents:
+          type: integer
+        sessions:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+              hours:
+                type: number
+              events:
+                type: integer
+    ToolDetail:
+      allOf:
+      - $ref: '#/components/schemas/Tool'
+      - type: object
+        properties:
+          firmwareVersion:
+            type: string
+          purchaseDate:
+            type: string
+            format: date
+          warrantyExpiry:
+            type: string
+            format: date
+          lastSeen:
+            type: string
+            format: date-time
+          totalRuntime:
+            type: number
+            description: Total operational runtime in hours
+          assignedUserId:
+            type: string
   securitySchemes:
     bearerAuth:
       type: http
