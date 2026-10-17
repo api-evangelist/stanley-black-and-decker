@@ -121,6 +121,27 @@ paths:
           description: Too Many Requests
 components:
   schemas:
+    RegisterAssetRequest:
+      type: object
+      required:
+      - serialNumber
+      - type
+      properties:
+        serialNumber:
+          type: string
+        type:
+          type: string
+          enum:
+          - tool
+          - battery
+          - tag
+          - connector
+        jobsiteId:
+          type: string
+        name:
+          type: string
+        notes:
+          type: string
     AssetDetail:
       allOf:
       - $ref: '#/components/schemas/Asset'
@@ -160,27 +181,6 @@ components:
           - active
           - missing
           - inactive
-    RegisterAssetRequest:
-      type: object
-      required:
-      - serialNumber
-      - type
-      properties:
-        serialNumber:
-          type: string
-        type:
-          type: string
-          enum:
-          - tool
-          - battery
-          - tag
-          - connector
-        jobsiteId:
-          type: string
-        name:
-          type: string
-        notes:
-          type: string
   securitySchemes:
     bearerAuth:
       type: http
